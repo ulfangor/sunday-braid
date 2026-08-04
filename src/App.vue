@@ -11,7 +11,15 @@ const recipeStore = useRecipesStore()
   <pre>{{ recipeStore.recipes }}</pre>
 
   <h2>Recipes</h2>
-  <RecipeCard v-for="recipe in recipeStore.recipes" :key="recipe.id" :recipe="recipe" />
+  <div class="recipe-list">
+    <RecipeCard v-for="recipe in recipeStore.recipes" :key="recipe.id" :recipe="recipe" />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+</style>
