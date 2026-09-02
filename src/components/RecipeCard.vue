@@ -12,10 +12,14 @@ const props = defineProps({
     <img class="recipe-card__image" :src="props.recipe.image" alt="Recipe Image" />
     <div class="recipe-card__body">
       <h2 class="recipe-card__title">{{ props.recipe.name }}</h2>
-      <p class="recipe-card__section">
+      <div class="recipe-card__section">
         <span class="recipe-card__label">Ingredients</span>
-        {{ props.recipe.ingredients }}
-      </p>
+        <ul class="recipe-card__ingredients">
+          <li v-for="ingredient in props.recipe.ingredients" :key="ingredient.id">
+            {{ ingredient.quantity }} {{ ingredient.unit }} — {{ ingredient.name }}
+          </li>
+        </ul>
+      </div>
       <p class="recipe-card__section">
         <span class="recipe-card__label">Instructions</span>
         {{ props.recipe.instructions }}
