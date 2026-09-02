@@ -5,15 +5,23 @@ import { useRecipesStore } from '@/stores/recipes'
 const recipeStore = useRecipesStore()
 const name = ref('')
 const image = ref('')
-const ingredients = ref('')
+const ingredients = ref([])
 const notes = ref('')
 const instructions = ref('')
+
+function onAddIngredient() {
+  ingredients.value.push({ id: crypto.randomUUID(), name: '', quantity: '', unit: '' })
+}
+
+function onRemoveIngredient(id) {
+  ingredients.value = ingredients.value.filter((ingredient) => ingredient.id !== id)
+}
 
 function onAddRecipe() {
   recipeStore.addRecipe(name.value, image.value, ingredients.value, notes.value, instructions.value)
   name.value = ''
   image.value = ''
-  ingredients.value = ''
+  ingredients.value = []
   notes.value = ''
   instructions.value = ''
 }
@@ -23,7 +31,13 @@ function onAddRecipe() {
   <form class="recipe-form" @submit.prevent="onAddRecipe">
     <input class="recipe-form__input" v-model="name" placeholder="Recipe Name" />
     <input class="recipe-form__input" v-model="image" placeholder="Image URL" />
-    <textarea class="recipe-form__textarea" v-model="ingredients" placeholder="Ingredients"></textarea>
+    <div v-for="ingredient in ingredients" :key="ingredient.id">
+      <input v-model="ingredient.name" placeholder="Name" />
+      <input v-model="ingredient.quantity" placeholder="Quantity" />
+      <input v-model="ingredient.unit" placeholder="Unit" />
+      <button type="button" @click="onRemoveIngredient(ingredient.id)">✕</button>
+    </div>
+    <button type="button" @click="onAddIngredient">Add Ingredient</button>
     <textarea class="recipe-form__textarea" v-model="notes" placeholder="Notes"></textarea>
     <textarea
       class="recipe-form__textarea"
